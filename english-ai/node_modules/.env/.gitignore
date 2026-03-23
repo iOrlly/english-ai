@@ -1,0 +1,17 @@
+# English AI CLI
+
+CLI tool that uses a local LLM to correct English sentences.
+
+## Features
+- Corrects sentences
+- Explains mistakes
+
+## Tech
+- Node.js
+- LM Studio
+- Phi-3 Mini
+
+## How to run
+1. Start LM Studio server
+2. Run:
+node index.js
