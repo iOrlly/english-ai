@@ -44,7 +44,7 @@ async function buscarDados(mensagem) {
                 content: "Corrija e explique: " + mensagem
                 }
             ],
-            temperature: 0.4
+            temperature: 0.2
         })
     });
     const dados = await resposta.json();
@@ -95,14 +95,45 @@ async function revisarResposta(respostaOriginal) {
     return dados.choices[0].message.content;
 }
 
-// Resposta revisada: Orquestrador
-async function fluxo(mensagem) {
-    const resposta = await buscarDados(mensagem)
-    const revisada = await revisarResposta(resposta)
-
-    console.log("\nResposta final: \n");
-    console.log(revisada);
+function validarFormato(resposta) {
+    return (
+        resposta.includes("Correção:") &&
+        resposta.includes("Explicação:") &&
+        resposta.includes("Exercício:")
+    )
 }
 
+function validarQualidade(resposta) {
+    if (!resposta.includes("Correção:")) return false;
+    if (!resposta.includes("Explicação:")) return false;   
+    if(resposta.includes("Instrucción")) return false;
+    if(resposta.length < 50) return false;
+}
+
+function validarResposta(resposta) {
+    return validarFormato(resposta) && validarQualidade(resposta);
+}
+
+// Resposta revisada: Orquestrador
+async function fluxo(mensagem) {
+    let tentativas = 0;
+    let contexto = mensagem;
+
+    while (tentativas < 3) {
+        const resposta = await buscarDados(contexto);
+        const revisada = await revisarResposta(resposta);
+
+        if (validarResposta(revisada)) {
+            console.log("\nResposta final:\n");
+            console.log(revisada);
+            return;
+        }
+
+        tentativas++;
+        contexto = mensagem + "\n\nA resposta anterior estava fora do formato. Corrija melhor.";
+    }
+
+    console.log("Não consegui gerar uma resposta válida.");
+}
 
 fluxo("She go to school yesterday");

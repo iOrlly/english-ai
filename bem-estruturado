@@ -1,0 +1,140 @@
+// const URL = 'http://127.0.0.1:1234/v1/chat/completions';
+
+// // Resposta
+// async function buscarDados(mensagem) {
+//     const resposta = await fetch(URL, {
+//         method: 'POST',
+//         headers: {
+//             'content-type': 'application/json'
+//         },
+//         body: JSON.stringify({
+//             model: "phi-3.1-mini-4k-instruct",
+//             // max_tokens: 500,
+//             messages: [
+//                 {
+//                     role: "system",
+//                     content: `
+//                     Você é um professor de inglês.
+
+//                     Tarefa:
+//                     1. Corrigir a frase
+//                     2. Explicar o erro
+//                     3. Criar 1 exercício
+
+//                     Regras:
+//                     - Correção em inglês
+//                     - Explicação em português (máximo 2 frases)
+//                     - Não traduza a frase
+
+//                     Exercício:
+//                     - Peça para escrever uma frase
+//                     - Defina palavras obrigatórias
+//                     - Inclua exemplo
+//                     - Inclua resposta modelo
+                    
+//                     Formato obrigatório (responda apenas isso):
+//                     Correção: [frase corrigida em inglês]
+//                     Explicação: [explicação em português]
+//                     Exercício: [Criar exercício relacionado ao tema]
+//                     Exemplo: [Dê um exemplo de resposta]
+//                     Resposta:[Responder exercício]`
+//                 },
+//                 {
+//                 role: "user",
+//                 content: "Corrija e explique: " + mensagem
+//                 }
+//             ],
+//             temperature: 0.2
+//         })
+//     });
+//     const dados = await resposta.json();
+//     return dados.choices[0].message.content;
+// }
+
+// // revisar resposata
+// async function revisarResposta(respostaOriginal) {
+//     const resposta = await fetch(URL, {
+//         method: 'POST',
+//         headers: {'content-type': 'application/json'},
+//         body: JSON.stringify({
+//             model: "phi-3.1-mini-4k-instruct",
+//             messages:
+//             [
+//                 {
+//                     role: "system",
+//                     content: `Você é um corretor de respostas.
+
+//                     Tarefa:
+//                     - Corrigir erros de gramática e explicação
+//                     - Garantir que a resposta siga este formato:
+//                     Correção: [frase corrigida em inglês]
+//                     Explicação: [explicação em português]
+//                     Exercício: [Criar exercício relacionado ao tema]
+//                     Exemplo: [Dê um exemplo de resposta]
+//                     Resposta:[Responder exercício]
+
+//                     Regras:
+//                     - NÃO avalie
+//                     - NÃO comente
+//                     - NÃO explique o que mudou
+//                     - NÃO adicione texto extra
+
+//                     Se estiver errado, corrija.
+//                     Se estiver certo, repita exatamente a resposta original.
+
+//                     Responda apenas com a resposta final corrigida ou revisada.`
+//                 },
+//                 {
+//                     role: "user",
+//                     content: respostaOriginal
+//                 }
+//             ]
+//         })
+//     })
+//     const dados = await resposta.json();
+//     return dados.choices[0].message.content;
+// }
+
+// function validarFormato(resposta) {
+//     return (
+//         resposta.includes("Correção:") &&
+//         resposta.includes("Explicação:") &&
+//         resposta.includes("Exercício:") &&
+//         resposta.includes("Exemplo:") &&
+//         resposta.includes("Resposta:")
+//     )
+// }
+
+// function validarQualidade(resposta) {
+//     if (!resposta.includes("Correção:")) return false;
+//     if (!resposta.includes("Explicação:")) return false;   
+//     if(resposta.includes("Instrucción")) return false;
+//     if(resposta.length < 50) return false;
+// }
+
+// function validarResposta(resposta) {
+//     return validarFormato(resposta) && validarQualidade(resposta);
+// }
+
+// // Resposta revisada: Orquestrador
+// async function fluxo(mensagem) {
+//     let tentativas = 0;
+
+//     while (tentativas < 3) {
+//         const resposta = await buscarDados(mensagem);
+//         const revisada = await revisarResposta(resposta);
+
+//         if (validarResposta(revisada)) {
+//             console.log("\nResposta final:\n");
+//             console.log(revisada);
+//             return;
+//         }
+
+//         tentativas++;
+//         console.log("Resposta ruim... tentando novamente");
+//     }
+
+//     console.log("Não consegui gerar uma resposta válida.");
+// }
+
+// fluxo("She go to school yesterday");
