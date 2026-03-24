@@ -1,32 +1,76 @@
+:root {
+    --main-color: #121212;
+    --butto-color:#4CAF50;
+    --text-color: #fff;
+    --background-color: #1e1e1e;
+}
+
 body {
     font-family: Arial;
-    background-color: #121212;
-    color: #fff;
+    background-color: var(--main-color);
+    color: var(--text-color);
     justify-content: center;
     margin-top: 50px;
 }
 
-.container {
-    width: 500px;
-}
-
-textoarea {
-    width: 100%;
-    height: 100px;
+#entrada {
+    width: 50%;
+    min-height: 5rem;
+    height: auto;
+    max-height: 40vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 16px;
+    padding: 10px;
     margin-bottom: 10px;
+    box-sizing: border-box;
+    background: var(--background-color);
+    color: var(--text-colot);
+    border: 1px solid #444;
+    border-radius: 4px;
+    resize: none;
 }
 
 button {
     width: 10em;
     padding: 10px;
-    background: #4CAF50;
-    color: white;
+    background: var(--butto-color);
+    color: var(--text-color);
     border: none;
-    cursor: pornter;
+    cursor: pointer;
 }
 
-pre {
-    background: #1e1e1e;
+.voz-label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+#voz {
+    display: block;
+    width: 100%;
+    max-width: 25em;
+    padding: 8px;
+    margin-bottom: 10px;
+    background: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid #444;
+    border-radius: 4px;
+}
+
+#resposta {
+    background: var(--background-color);
     padding: 10px;
     margin-top: 10px;
+    height: 15rem;
+    width: 50vw;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }

@@ -1,3 +1,5 @@
+
+
 async function enviar() {
     const texto = document.querySelector("#entrada").value;
     const saida = document.querySelector("#resposta");
