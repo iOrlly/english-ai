@@ -35,8 +35,8 @@ async function buscarDados(mensagem) {
                     Formato obrigatório (responda apenas isso):
                     Correção: [frase corrigida em inglês]
                     Explicação: [explicação em português]
-                    Exercício: [Criar exercício relacionado ao tema]
-                    Exemplo: [Dê um exemplo de resposta]
+                    Exercício: [Criar exercício relacionado ao tema (máximo 1 frase)]
+                    Exemplo: [Dê um exemplo de resposta (máximo 1 frase)]
                     Resposta:[Responder exercício]`
                 },
                 {
@@ -44,7 +44,7 @@ async function buscarDados(mensagem) {
                 content: "Corrija e explique: " + mensagem
                 }
             ],
-            temperature: 0.2
+            temperature: 0.4
         })
     });
     const dados = await resposta.json();
@@ -69,8 +69,8 @@ async function revisarResposta(respostaOriginal) {
                     - Garantir que a resposta siga este formato:
                     Correção: [frase corrigida em inglês]
                     Explicação: [explicação em português]
-                    Exercício: [Criar exercício relacionado ao tema]
-                    Exemplo: [Dê um exemplo de resposta]
+                    Exercício: [Criar exercício relacionado ao tema(máximo 1 frase)]
+                    Exemplo: [Dê um exemplo de resposta(máximo 1 frase)]
                     Resposta:[Responder exercício]
 
                     Regras:
@@ -99,19 +99,44 @@ function validarFormato(resposta) {
     return (
         resposta.includes("Correção:") &&
         resposta.includes("Explicação:") &&
-        resposta.includes("Exercício:")
+        resposta.includes("Exercício:") &&
+        resposta.includes("Exemplo:") &&
+        resposta.includes("Resposta:")
     )
 }
 
 function validarQualidade(resposta) {
-    if (!resposta.includes("Correção:")) return false;
-    if (!resposta.includes("Explicação:")) return false;   
+    if (resposta.includes("pretérito perfeito")) return false;
+    if (resposta.includes("past perfect")) return false;   
     if(resposta.includes("Instrucción")) return false;
     if(resposta.length < 50) return false;
+
+    return true
+}
+
+function validarCoerencia(resposta) {
+    if (resposta.includes("to be")) {
+        if (
+            resposta.includes("went") ||
+            resposta.includes("saw") ||
+            resposta.includes("ate")
+        ) {
+            return false;
+        }
+    }
+    return true
 }
 
 function validarResposta(resposta) {
-    return validarFormato(resposta) && validarQualidade(resposta);
+    const formato = validarFormato(resposta);
+    const qualidade = validarQualidade(resposta);
+    const coerencia = validarCoerencia(resposta);
+
+    if (!formato) console.log("Erro: formato");
+    if (!qualidade) console.log("Erro: qualidade");
+    if (!coerencia) console.log("Erro: coerência");
+
+    return formato && qualidade && coerencia;
 }
 
 // Resposta revisada: Orquestrador
