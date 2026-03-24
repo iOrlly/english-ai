@@ -151,14 +151,16 @@ async function fluxo(mensagem) {
         if (validarResposta(revisada)) {
             console.log("\nResposta final:\n");
             console.log(revisada);
-            return;
+            return revisada;
         }
 
         tentativas++;
         contexto = mensagem + "\n\nA resposta anterior estava fora do formato. Corrija melhor.";
     }
 
-    console.log("Não consegui gerar uma resposta válida.");
+    const erro = "Não consegui gerar uma resposta válida.";
+    console.log(erro);
+    return erro;
 }
 
-fluxo("She go to school yesterday");
+module.exports = { fluxo };
