@@ -14,6 +14,7 @@
             <div id="text">
                 <textarea id="entrada" placeholder="Digite sua frase em Inglês..."></textarea>
             </div>
+
             <div id="container">
                 <button onclick="enviar()">Corrigir</button>
 
@@ -21,13 +22,40 @@
 
                 <label class="voz-label" for="voz">Voz (TTS):</label>
                 <select id="voz" aria-label="Escolher voz para leitura"></select>
+            </div>
 
-                <pre id="resposta"></pre>
+            <div id="result">
+                <p id="status" class="result-status" role="status" aria-live="polite"></p>
+
+                <div class="card correction">
+                    <h3>✔ Correção</h3>
+                    <p id="correction"></p>
+                </div>
+
+                <div class="card explication">
+                    <h3>💡 Explicação</h3>
+                    <p id="explication"></p>
+                </div>
+
+                <div class="card exercise">
+                    <h3>💡 Exercício</h3>
+                    <p id="exercise"></p>
+                </div>
+
+                <div class="card example">
+                    <h3>📌 Exemplo</h3>
+                    <p id="example"></p>
+                </div>
+
+                <div class="card answer">
+                    <h3>🎯 Resposta</h3>
+                    <p id="answer"></p>
+                </div>
             </div>
         </main>
         
         <footer></footer>
         <script src="script.js"></script>
-        <script src="reading.js"></script>
+        <script src="voice.js"></script>
     </body>
 </html>

@@ -63,9 +63,7 @@ function falarTexto(texto) {
 }
 
 function ouvir() {
-    const resposta = document.getElementById("resposta").textContent;
-
-    const correcao = resposta.split("Correção:")[1]?.split("\n")[0];
+    const correcao = document.getElementById("correction")?.textContent?.trim();
 
     if (correcao) {
         falarTexto(correcao);

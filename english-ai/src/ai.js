@@ -139,6 +139,22 @@ function validarResposta(resposta) {
     return formato && qualidade && coerencia;
 }
 
+function parseResposta(texto) {
+    function extrair(secao) {
+        const regex = new RegExp(secao + ":(.*?)(?=\\n\\w+:|$)", "s");
+        const match = texto.match(regex);
+        return match ? match[1].trim() : "";
+    }
+
+    return {
+        correction: extrair("Correção"),
+        explication: extrair("Explicação"),
+        exercise: extrair("Exercício"),
+        example: extrair("Exemplo"),
+        answer: extrair("Resposta")
+    };
+}
+
 // Resposta revisada: Orquestrador
 async function fluxo(mensagem) {
     let tentativas = 0;

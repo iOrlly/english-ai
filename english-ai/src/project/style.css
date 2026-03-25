@@ -25,7 +25,7 @@ body {
     margin-bottom: 10px;
     box-sizing: border-box;
     background: var(--background-color);
-    color: var(--text-colot);
+    color: var(--text-color);
     border: 1px solid #444;
     border-radius: 4px;
     resize: none;
@@ -39,6 +39,26 @@ button {
     border: none;
     cursor: pointer;
 }
+
+.card {
+    background: var(--background-color);
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.card p {
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.correction{border-left: 4px solid var(--butto-color);}
+.explication{border-left: 4px solid #2196F3;}
+.exercise{border-left: 4px solid #FFC107;}
+.example{border-left: 4px solid #9C27B0;}
+.answer{border-left: 4px solid #FF5722;}
 
 .voz-label {
     display: block;
@@ -60,17 +80,13 @@ button {
     border-radius: 4px;
 }
 
-#resposta {
-    background: var(--background-color);
-    padding: 10px;
-    margin-top: 10px;
-    height: 15rem;
-    width: 50vw;
-    max-width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: auto;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    word-break: break-word;
+.result-status {
+    min-height: 1.25em;
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+.result-status:empty {
+    display: none;
 }
