@@ -35,8 +35,8 @@ async function buscarDados(mensagem) {
                     Formato obrigatório (responda apenas isso):
                     Correção: [frase corrigida em inglês]
                     Explicação: [explicação em português]
-                    Exercício: [Criar exercício relacionado ao tema (máximo 1 frase)]
-                    Exemplo: [Dê um exemplo de resposta (máximo 1 frase)]
+                    Exercício: [Criar exercício relacionado ao tema em inglês(máximo 1 frase)]
+                    Exemplo: [Dê um exemplo de resposta em inglês(máximo 1 frase)]
                     Resposta:[Responder exercício]`
                 },
                 {
@@ -69,8 +69,8 @@ async function revisarResposta(respostaOriginal) {
                     - Garantir que a resposta siga este formato:
                     Correção: [frase corrigida em inglês]
                     Explicação: [explicação em português]
-                    Exercício: [Criar exercício relacionado ao tema(máximo 1 frase)]
-                    Exemplo: [Dê um exemplo de resposta(máximo 1 frase)]
+                    Exercício: [Criar exercício relacionado ao tema em inglês(máximo 1 frase)]
+                    Exemplo: [Dê um exemplo de resposta em inglês(máximo 1 frase)]
                     Resposta:[Responder exercício]
 
                     Regras:

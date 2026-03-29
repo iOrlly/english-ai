@@ -58,6 +58,8 @@ function preencherCards(campos) {
     }
 }
 
+const MAX_HISTORICO = 15;
+
 async function enviar() {
     const texto = document.querySelector("#entrada").value;
 
@@ -86,10 +88,64 @@ async function enviar() {
         }
 
         const bruto = dados.resposta ?? "";
-        preencherCards(extrairCampos(bruto));
+        const partes = extrairCampos(bruto);
+        preencherCards(partes);
+        salvarHistorico({
+            message: texto,
+            correction: partes.correction,
+            explication: partes.explication,
+            exercise: partes.exercise,
+            example: partes.example,
+            answer: partes.answer,
+            date: new Date().toLocaleString(),
+        });
+        renderizarHistorico();
         definirStatus("");
     } catch (erro) {
         definirStatus(`Erro: ${erro.message}`);
         limparCards();
     }
 }
+
+function salvarHistorico(item) {
+    const historico = JSON.parse(localStorage.getItem("historico")) || [];
+    historico.push(item);
+    while (historico.length > MAX_HISTORICO) {
+        historico.shift();
+    }
+    localStorage.setItem("historico", JSON.stringify(historico));
+}
+
+function carregarHistorico() {
+    return JSON.parse(localStorage.getItem("historico")) || [];
+}
+
+function renderizarHistorico() {
+    const historico = carregarHistorico();
+    const container = document.getElementById("historico");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    historico
+        .slice()
+        .reverse()
+        .forEach((item) => {
+            const div = document.createElement("div");
+            div.className = "card";
+            const frase = item.message ?? item.messege ?? "";
+            div.innerHTML = `
+        <p><strong>Frase:</strong> ${frase}</p>
+        <p><strong>Correção:</strong> ${item.correction ?? ""}</p>
+        <p><strong>Explicação:</strong> ${item.explication ?? ""}</p>
+        <p><strong>Exercício:</strong> ${item.exercise ?? ""}</p>
+        <p><strong>Exemplo:</strong> ${item.example ?? ""}</p>
+        <p><strong>Resposta:</strong> ${item.answer ?? ""}</p>
+        <small>${item.date ?? ""}</small>`;
+            container.appendChild(div);
+        });
+}
+
+window.onload = function () {
+    renderizarHistorico();
+};

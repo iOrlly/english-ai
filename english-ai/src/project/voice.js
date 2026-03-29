@@ -57,7 +57,7 @@ function falarTexto(texto) {
         utterance.lang = "en-US";
     }
 
-    utterance.rate = 0.9;
+    utterance.rate = 0.6;
 
     speechSynthesis.speak(utterance);
 }
