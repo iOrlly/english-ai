@@ -9,7 +9,8 @@ O código da aplicação fica em [`english-ai/`](english-ai/).
 - **Corrigir**: envia o texto para o backend; a resposta segue o formato estruturado definido em `src/ai.js` (Correção, Explicação, Exercício, Exemplo, Resposta).
 - **Fluxo no servidor**: geração, revisão automática da resposta e validações de formato/qualidade antes de devolver ao cliente.
 - **Ouvir (TTS)**: leitura em voz alta da linha **Correção:** usando a [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis); seleção de **voz em inglês** (lista preenchida conforme o sistema/navegador).
-- **Layout**: página com `header` / `main` / `footer`, área de entrada (`#entrada`) e cards (`#result`) com cada parte da correção (Correção, Explicação, Exercício, Exemplo, Resposta).
+- **Histórico**: após cada correção bem-sucedida, a frase e os campos são guardados no **localStorage** (o cliente descarta as entradas mais antigas além de um limite definido em `script.js`); lista na **sidebar** (`#sidebar`) com botão para abrir/fechar (`toggleHistorico()`). Com a sidebar aberta, o `main` recebe `padding-right` (classe `historico-aberto` no `body`) para os cards do resultado não ficarem por baixo do painel.
+- **Layout**: página com `header` / `main` / `footer`, área de entrada (`#entrada`), sidebar de histórico e cards (`#result`) com cada parte da correção (Correção, Explicação, Exercício, Exemplo, Resposta).
 
 ## Stack
 
@@ -31,7 +32,7 @@ english-ai/
     └── project/
         ├── server.js         # POST /api → fluxo(mensagem)
         ├── index.html      # UI
-        ├── script.js       # enviar() → fetch na API
+        ├── script.js       # enviar() → fetch na API; histórico (localStorage) e sidebar
         ├── voice.js        # TTS e select de voz
         └── style.css
 ```
