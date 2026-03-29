@@ -13,13 +13,19 @@
         <main>
             <div id="text">
                 <textarea id="entrada" placeholder="Digite sua frase em Inglês..."></textarea>
-                <div id="historico">Histórico</div>
+            </div>
+
+            <div id="sidebar" class="fechado">
+                <h3>Histórico</h3>
+                <div id="historico"></div>
             </div>
 
             <div id="container">
                 <button onclick="enviar()">Corrigir</button>
 
                 <button onclick="ouvir()">🔊 Ouvir</button>
+
+                <button onclick="toggleHistorico()">🕘 historico</button>
 
                 <label class="voz-label" for="voz">Voz (TTS):</label>
                 <select id="voz" aria-label="Escolher voz para leitura"></select>

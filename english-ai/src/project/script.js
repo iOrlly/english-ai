@@ -146,6 +146,12 @@ function renderizarHistorico() {
         });
 }
 
+function toggleHistorico() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("aberto");
+    document.body.classList.toggle("historico-aberto", sidebar.classList.contains("aberto"));
+}
+
 window.onload = function () {
     renderizarHistorico();
 };
