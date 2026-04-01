@@ -6,6 +6,8 @@ const MARCADORES_RESPOSTA = [
     ["Resposta:", "answer"],
 ];
 
+let correctAnswer = "";
+
 function extrairCampos(textoBruto) {
     const out = {
         correction: "",
@@ -89,6 +91,7 @@ async function enviar() {
 
         const bruto = dados.resposta ?? "";
         const partes = extrairCampos(bruto);
+        correctAnswer = (partes.answer || "").trim();
         preencherCards(partes);
         salvarHistorico({
             message: texto,
@@ -150,6 +153,93 @@ function toggleHistorico() {
     const sidebar = document.getElementById("sidebar");
     sidebar.classList.toggle("aberto");
     document.body.classList.toggle("historico-aberto", sidebar.classList.contains("aberto"));
+}
+
+function normalizar(text) {
+    return text
+    .toLowerCase()
+    .trim()
+    .replace(/[.,!?]/g, "");
+}
+
+function interpretarResultadoIA(texto) {
+    const validation = document.getElementById("showVerification");
+
+    if (!texto || !texto.toLowerCase().includes("correto:")) {
+        validation.textContent = "Erro na validação, tente novamente.";
+        return;
+    }
+
+    const correto = texto.toLowerCase().includes("correto: sim");
+
+    if (correto) {
+        validation.textContent = "✅ Correto!";
+    } else {
+        validation.textContent = "❌ " + extrairFeedback(texto);
+    }
+}
+
+async function verifyUserAnswer() {
+    const input = document.getElementById("userAnswer").value;
+    const validation = document.getElementById("showVerification");
+
+    console.log("verifyUserAnswer called");
+    console.log("Input:", input);
+    console.log("Correct answer:", correctAnswer);
+
+    if(!input.trim()) {
+        validation.textContent = "Digite uma resposta";
+        return;
+    }
+
+    if(!correctAnswer.trim()) {
+        validation.textContent = "Primeiro faça uma correção para ter uma resposta de referência";
+        return;
+    }
+
+    // Pegar o exercício atual do card
+    const exercicioElement = document.getElementById("exercise");
+    const exercicioAtual = exercicioElement ? exercicioElement.textContent.trim() : "";
+
+    console.log("Exercise:", exercicioAtual);
+
+    validation.textContent = "Validando...";
+
+    try {
+        console.log("Making fetch request...");
+        const resposta = await fetch("http://127.0.0.1:3000/validar", {
+            method: "POST",
+            headers: {
+                "content-type":"application/json"
+            },
+            body: JSON.stringify({
+                respostaUsuario: input,
+                respostaCorreta: correctAnswer,
+                exercicio: exercicioAtual
+            })
+        });
+
+        console.log("Fetch response status:", resposta.status);
+
+        if (!resposta.ok) {
+            throw new Error("Erro na validação");
+        }
+
+        const data = await resposta.json();
+
+        console.log("DATA:", data);
+        console.log("RESULTADO:", data.resultado);
+
+        interpretarResultadoIA(data.resultado);
+    } catch (error) {
+        console.error("Erro:", error);
+        validation.textContent = "Erro na validação, tente novamente.";
+    }
+}
+
+function extrairFeedback(texto) {
+    const match = texto.match(/Feedback:\s*(.*)/i);
+    return match ? match[1] : "Resposta incorreta.";
 }
 
 window.onload = function () {

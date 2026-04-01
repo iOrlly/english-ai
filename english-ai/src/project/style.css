@@ -27,6 +27,19 @@ main {
     transition: padding-right 0.3s ease-in-out;
 }
 
+#inputAnswer {
+    width: 90%;
+    min-height: 3rem;
+    height: auto;
+    max-height: 40vh;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid #444;
+    border-radius: 4px;
+}
+
 #entrada {
     width: 50%;
     min-height: 5rem;

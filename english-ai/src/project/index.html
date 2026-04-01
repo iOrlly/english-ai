@@ -3,7 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="./css/base.css">
+        <link rel="stylesheet" href="./css/components.css">
+        <link rel="stylesheet" href="./css/layout.css">
+        <link rel="stylesheet" href="./css/history.css">
         <title>Corretor de Inglês</title>
     </head>
     <body>
@@ -21,7 +24,7 @@
             </div>
 
             <div id="container">
-                <button onclick="enviar()">Corrigir</button>
+                <button onclick="enviar()">✔ Corrigir</button>
 
                 <button onclick="ouvir()">🔊 Ouvir</button>
 
@@ -47,6 +50,9 @@
                 <div class="card exercise">
                     <h3>💡 Exercício</h3>
                     <p id="exercise"></p>
+                    <input id="userAnswer" type="text" placeholder="Digite a resposta...">
+                    <button onclick="verifyUserAnswer()">Validar</button>
+                    <p id="showVerification"></p>
                 </div>
 
                 <div class="card example">
@@ -56,7 +62,7 @@
 
                 <div class="card answer">
                     <h3>🎯 Resposta</h3>
-                    <p id="answer"></p>
+                    <p id="answer" class="spoiler" onclick="this.classList.toggle('revelado')"></p>
                 </div>
             </div>
         </main>
